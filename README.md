@@ -8,3 +8,4 @@ Some Data Analysis For Teacher Gao
 
 ### mv-tweets-data
 - put data input mysql by golang
+- by golang
