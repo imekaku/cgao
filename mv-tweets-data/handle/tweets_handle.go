@@ -99,6 +99,7 @@ func insert_tweets(twi *model.TWEETS) int64 {
 	// r := regexp.MustCompile(`[\x{1F000}-\x{1FFFF}]|[\x{0000}-\x{3FFF}]`)
 	r := regexp.MustCompile(`[\x{1F000}-\x{1FFFF}]|[\x{2000}-\x{2FFF}]|[\x{3000}-\x{3FFF}]`)
 	twi.Text = r.ReplaceAllString(twi.Text, "")
+	twi.Text = strings.Replace(twi.Text, "\n", "", -1)
 
 	_, err = stmt.Exec(twi.Id, twi.Id_str, twi.Created_at, twi.Favorite_count, twi.Favorited, twi.Filter_level, twi.In_reply_to_screen_name,
 		twi.In_reply_to_status_id, twi.In_reply_to_status_id_str, twi.In_reply_to_user_id, twi.In_reply_to_user_id_str, twi.Lang, twi.Possibly_sensitive,

@@ -27,6 +27,7 @@ func analyze_user(user *model.USER) int64 {
 	if err != nil {
 		fmt.Println("analyze_user tx.Prepare insert err =", err)
 	}
+	user.Description = strings.Replace(user.Description, "\n", "", -1)
 	_, err = stmt.Exec(user.Id, user.Id_str, user.Contributors_enabled, user.Created_at, user.Default_profile, user.Default_profile_image, user.
 		Description, user.Favourites_count, user.Follow_request_sent, user.Following, user.Followers_count, user.Friends_count, user.
 		Geo_enabled, user.Is_translator, user.Lang, user.Listed_count, user.Location, user.Name, user.Notifications, user.Profile_background_color, user.
