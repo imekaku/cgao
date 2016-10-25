@@ -9,3 +9,6 @@ Some Data Analysis For Teacher Gao
 ### mv-tweets-data
 - put data input mysql by golang
 - by golang
+
+### change-date-format-tweets
+- change mv-tweets-data time format
