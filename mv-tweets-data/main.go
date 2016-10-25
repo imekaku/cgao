@@ -1,3 +1,6 @@
+// 将tweets的json格式数据导入到MySQL
+// 2016年10月24日11:33:27
+
 package main
 
 import (
