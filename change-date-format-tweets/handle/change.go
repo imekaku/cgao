@@ -47,7 +47,6 @@ func Select_update() {
 		}
 		tweets_index_slice_len := len(tweets_index_slice)
 		for i := 0; i < tweets_index_slice_len; i++ {
-			fmt.Println("update =", i)
 			tx.Exec("update tweets set created_at = ? where tweets_index = ?", new_created_at_slice[i], tweets_index_slice[i])
 		}
 
