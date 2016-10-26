@@ -63,6 +63,9 @@ func Select_update() {
 func Change_time_format(created_at string) string {
 	var month string
 	time_slice := strings.Split(created_at, " ")
+	if len(time_slice) == 1 {
+		return created_at
+	}
 	switch time_slice[1] {
 	case "Jan":
 		month = "01"
