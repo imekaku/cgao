@@ -11,12 +11,10 @@ var db *sql.DB
 
 func Handle() {
 	InitHandle()
+	Select_update()
 }
 
 func InitHandle() {
-	g_file_num = 0
-	commit_num = 0
-
 	var err error
 	db, err = GetDbConn()
 
