@@ -7,8 +7,6 @@ import (
 )
 
 var tx *sql.Tx
-var select_num int64 = 0
-var commit_num int64 = 0
 
 func Select_update() {
 	tx, err := db.Begin()
@@ -18,29 +16,15 @@ func Select_update() {
 
 	var tweets_index int64 = 0
 	var created_at string
+	var tweets_index_slice []int64
+	var new_created_at_slice []string
 
 	for {
-		select_num = select_num + 1
-		if select_num > 100 {
-			select_num = 0
-			commit_num = commit_num + 1
-			tx.Commit()
-
-			fmt.Println("Change recoder num =", commit_num*100)
-			tx, err = db.Begin()
-			if err != nil {
-				fmt.Println("Select_update db.Begin() err=", err)
-			}
-		}
-
-		stmt, err := tx.Prepare("select tweets_index, created_at from tweets limit ?, ?")
+		rows, err := tx.Query("select tweets_index, created_at from tweets limit ?, ?", tweets_index, tweets_index+1000)
 		if err != nil {
-			fmt.Println("tx.Prepare() err=", err)
-		}
-
-		rows, err := stmt.Query(tweets_index, tweets_index+100)
-		if err != nil {
+			// 为什么没有等于sql.ErrNoRows
 			if err == sql.ErrNoRows {
+				tx.Commit()
 				break
 			} else {
 				fmt.Println("stmt.Query() err=", err)
@@ -53,8 +37,27 @@ func Select_update() {
 				fmt.Println("change.go Select_update rows.Scan err=", err)
 			}
 			new_created_at := Change_time_format(created_at)
-			tx.Exec("update tweets set created_at = ? where tweets_index = ?", new_created_at, tweets_index)
+			new_created_at_slice = append(new_created_at_slice, new_created_at)
+			tweets_index_slice = append(tweets_index_slice, tweets_index)
 		}
+		tx.Commit()
+		tx, err = db.Begin()
+		if err != nil {
+			fmt.Println("Select_update db.Begin() err=", err)
+		}
+		tweets_index_slice_len := len(tweets_index_slice)
+		for i := 0; i < tweets_index_slice_len; i++ {
+			fmt.Println("update =", i)
+			tx.Exec("update tweets set created_at = ? where tweets_index = ?", new_created_at_slice[i], tweets_index_slice[i])
+		}
+
+		// 相等于 sql.ErrNoRows
+		if tweets_index_slice_len == 0 {
+			tx.Commit()
+			break
+		}
+		new_created_at_slice = new_created_at_slice[:0]
+		tweets_index_slice = tweets_index_slice[:0]
 	}
 }
 
