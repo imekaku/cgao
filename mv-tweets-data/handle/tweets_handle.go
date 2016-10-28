@@ -70,6 +70,20 @@ func insert_tweets(twi *model.TWEETS) int64 {
 		geo_coordinates = strings.Join(geo_coordinates_slice, ",")
 	}
 
+	var coordinates_coordinates string
+	var coordinates_coordinates_slice []string
+	var coordinates_m_type string
+	if &twi.Coordinates != nil {
+		coordinates_m_type = twi.Coordinates.M_type
+		for i := range twi.Coordinates.Coordinates {
+			num := twi.Coordinates.Coordinates[i]
+			text := strconv.FormatFloat(num, 'f', -1, 64)
+			coordinates_coordinates_slice = append(coordinates_coordinates_slice, text)
+		}
+
+		coordinates_coordinates = strings.Join(coordinates_coordinates_slice, ",")
+	}
+
 	var coordinates_followers bool
 	if &twi.Scopes != nil {
 		coordinates_followers = twi.Scopes.Followers
@@ -105,7 +119,7 @@ func insert_tweets(twi *model.TWEETS) int64 {
 		twi.In_reply_to_status_id, twi.In_reply_to_status_id_str, twi.In_reply_to_user_id, twi.In_reply_to_user_id_str, twi.Lang, twi.Possibly_sensitive,
 		twi.Quoted_status_id, twi.Quoted_status_id_str, twi.Retweet_count, twi.Retweeted, twi.Source, twi.Text, twi.Truncated,
 		withheld_in_countries, twi.Withheld_scope, contributors_id, contributors_id_str, contributors_screen_name, contributor_id, contributor_id_str,
-		contributor_screen_name, geo_coordinates, geo_m_type, coordinates_followers, geo_coordinates, geo_m_type,
+		contributor_screen_name, geo_coordinates, geo_m_type, coordinates_followers, coordinates_coordinates, coordinates_m_type,
 		current_user_retweet_id, current_user_retweet_id_str)
 	if err != nil {
 		fmt.Println("analyze_tweets Exec err = ", err)
