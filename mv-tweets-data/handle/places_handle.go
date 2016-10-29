@@ -33,17 +33,17 @@ func analyze_places(places *model.PLACES) int64 {
 	stmt, err := tx.Prepare("insert into places(country, country_code," +
 		"full_name, id, name, place_type, url, attributes_street_address, attributes_twitter, " +
 		"bounding_box_coordinates, bounding_box_m_type) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
-    if err != nil {
-        fmt.Println("analyze_places tx.Prepare error =", err)
-    }
+	if err != nil {
+		fmt.Println("analyze_places tx.Prepare error =", err)
+	}
 	defer stmt.Close()
 
 	_, err = stmt.Exec(places.Country, places.Country_code,
 		places.Full_name, places.Id, places.Name, places.Place_type, places.Url, attributes_street_address, attributes_twitter,
 		bounding_box_coordinates, bounding_box_m_type)
-    if err != nil {
-        fmt.Println("analyze_places stmt.Exec error =", err)
-    }
+	if err != nil {
+		fmt.Println("analyze_places stmt.Exec error =", err)
+	}
 
 	var lastid int64
 	if err := tx.QueryRow("select last_insert_id() as lastid").Scan(&lastid); err != nil {

@@ -24,7 +24,7 @@ type TWEETS struct {
 	Withheld_in_countries     []string             `json:"withheld_in_countries"`
 	Withheld_scope            string               `json:"withheld_scope"`
 	Contributors              []CONTRIBUTOR        `json:"contributors"`
-    Contributor               CONTRIBUTOR          `json:"contributor"`
+	Contributor               CONTRIBUTOR          `json:"contributor"`
 	User                      USER                 `json:"user"`
 	Geo                       COORDINATES          `json:"geo"`
 	Places                    PLACES               `json:"place"`

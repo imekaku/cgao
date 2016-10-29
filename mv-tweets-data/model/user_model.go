@@ -40,7 +40,7 @@ type USER struct {
 	Url                                string   `json:"url"`
 	Utc_offset                         int      `json:"utc_offset"`
 	Verified                           bool     `json:"verified"`
-    M_is_translator                    bool     `json:"is_translator"`
+	M_is_translator                    bool     `json:"is_translator"`
 	Withheld_in_countries              []string `json:"withheld_in_countries"`
 	Entities                           ENTITIES `json:"entities"`
 	/* status Tweets */
