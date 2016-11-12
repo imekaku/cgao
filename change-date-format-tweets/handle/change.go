@@ -83,7 +83,7 @@ func Change_time_format(created_at string) string {
 		month = "07"
 	case "Aug":
 		month = "08"
-	case "Sept":
+	case "Sep":
 		month = "09"
 	case "Oct":
 		month = "10"
